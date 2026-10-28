@@ -1,0 +1,10 @@
+# build output
+/tui-copier
+/tui-copier-*
+/dist/
+*.exe
+# go
+/.go-cache/
+# editors
+.idea/
+.vscode/

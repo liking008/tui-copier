@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tui-copier — FreeKill 资源拷贝 TUI</title>
+<meta name="description" content="FreeKill 资源拷贝与语音下载的终端界面工具，Go + Bubble Tea。">
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --border:#30363d; --text:#e6edf3;
+    --muted:#8b949e; --accent:#ff7eb6; --accent2:#79c0ff; --ok:#3fb950;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:radial-gradient(1200px 600px at 80% -10%, #1f2440 0%, var(--bg) 55%);
+    color:var(--text); font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",
+    "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:980px;margin:0 auto;padding:56px 22px 80px}
+  header{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .logo{
+    width:44px;height:44px;border-radius:12px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#ff7eb6,#79c0ff);color:#0d1117;font-weight:800;font-size:20px;
+  }
+  h1{font-size:clamp(34px,6vw,56px);line-height:1.1;margin:28px 0 10px;letter-spacing:-.02em}
+  .sub{color:var(--muted);font-size:clamp(16px,2.2vw,20px);max-width:760px}
+  .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .badge{font-size:13px;color:var(--muted);border:1px solid var(--border);background:var(--panel);
+    padding:4px 10px;border-radius:999px}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 8px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:10px;
+    font-weight:600;border:1px solid var(--border)}
+  .btn.primary{background:var(--accent);color:#0d1117;border-color:transparent}
+  .btn.primary:hover{filter:brightness(1.07);text-decoration:none}
+  .btn.ghost{background:var(--panel);color:var(--text)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:34px 0}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px}
+  .card h3{margin:0 0 6px;font-size:16px}
+  .card p{margin:0;color:var(--muted);font-size:14px}
+  h2{margin:46px 0 14px;font-size:24px}
+  pre{background:#010409;border:1px solid var(--border);border-radius:12px;padding:16px;
+    overflow:auto;font:14px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .muted{color:var(--muted)}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:14px}
+  .dot{color:var(--ok)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">T</div>
+    <strong>tui-copier</strong>
+    <span class="badge">GPL-3.0</span>
+    <span class="badge">Go + Bubble Tea</span>
+  </header>
+
+  <h1>在终端里管理 FreeKill 资源</h1>
+  <p class="sub">
+    原画、阵亡语音、技能语音、技能文件的一站式拷贝工具，支持模糊搜索、候选补全、语音下载与技能测试。
+    键盘驱动，无需图形界面。
+  </p>
+
+  <div class="badges">
+    <span class="badge"><span class="dot">●</span> Linux x86_64 / ARM64</span>
+    <span class="badge"><span class="dot">●</span> Windows x86_64</span>
+    <span class="badge"><span class="dot">●</span> macOS Apple Silicon</span>
+  </div>
+
+  <div class="actions">
+    <a class="btn primary" href="https://github.com/liking008/tui-copier/releases/latest">下载最新版本</a>
+    <a class="btn ghost" href="https://github.com/liking008/tui-copier">查看源码</a>
+    <a class="btn ghost" href="https://github.com/liking008/tui-copier#readme">使用说明</a>
+  </div>
+
+  <div class="grid">
+    <div class="card"><h3>原画 / 语音拷贝</h3><p>在整合包之间复制武将原画、阵亡语音和技能语音。</p></div>
+    <div class="card"><h3>技能文件</h3><p>复制 Lua 技能文件，支持技能 ID 补全与目标重命名。</p></div>
+    <div class="card"><h3>语音下载</h3><p>按 URL 下载语音并落到指定包与技能。</p></div>
+    <div class="card"><h3>技能测试</h3><p>调用 FreeKill 的 <code>-testfile</code> 并汇总测试输出。</p></div>
+    <div class="card"><h3>快速启动</h3><p>生成 <code>quick_start.json</code>，一键启动 <code>FreeKill -q</code>。</p></div>
+    <div class="card"><h3>终端优先</h3><p>Bubble Tea 全屏 TUI，方向键 + Enter 完成全部操作。</p></div>
+  </div>
+
+  <h2>快速开始</h2>
+  <pre><code># 下载对应平台的可执行文件后
+chmod +x tui-copier-linux-amd64
+
+# 必须在 FreeKill 项目根目录运行（需要读取 packages/）
+cd /path/to/FreeKill
+/path/to/tui-copier-linux-amd64</code></pre>
+
+  <h2>从源码构建</h2>
+  <pre><code>git clone https://github.com/liking008/tui-copier.git
+cd tui-copier
+go build -trimpath -ldflags "-s -w" -o tui-copier .</code></pre>
+
+  <p class="muted">快捷键：↑/↓ 选择 · Enter 确认 · Esc 返回/退出 · Tab 切换焦点 · Ctrl+S 提交 · Ctrl+A 全选。</p>
+
+  <footer>
+    tui-copier 源自 FreeKill 项目的 <code>tools/tui-copier</code>，按 GPL-3.0 发布。
+    <br>页面由 GitHub Pages 托管。
+  </footer>
+</div>
+</body>
+</html>
